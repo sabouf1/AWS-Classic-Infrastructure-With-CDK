@@ -1,0 +1,866 @@
+Resources:
+  TheVPC92636AB0:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.20.0.0/16
+      EnableDnsHostnames: true
+      EnableDnsSupport: true
+      InstanceTenancy: default
+      Tags:
+        - Key: Name
+          Value: CdkappStack/TheVPC
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/Resource
+  TheVPCPublicSubnetSubnet1Subnet6558D2C6:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock: 10.20.0.0/18
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PublicSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: CdkappStack/TheVPC/PublicSubnetSubnet1
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet1/Subnet
+  TheVPCPublicSubnetSubnet1RouteTable4551A063:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkappStack/TheVPC/PublicSubnetSubnet1
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet1/RouteTable
+  TheVPCPublicSubnetSubnet1RouteTableAssociation228B423D:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: TheVPCPublicSubnetSubnet1RouteTable4551A063
+      SubnetId:
+        Ref: TheVPCPublicSubnetSubnet1Subnet6558D2C6
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet1/RouteTableAssociation
+  TheVPCPublicSubnetSubnet1DefaultRoute043CFE30:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: TheVPCIGWFA25CC08
+      RouteTableId:
+        Ref: TheVPCPublicSubnetSubnet1RouteTable4551A063
+    DependsOn:
+      - TheVPCVPCGWC9B93E30
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet1/DefaultRoute
+  TheVPCPublicSubnetSubnet1EIP0BA7EBB3:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: CdkappStack/TheVPC/PublicSubnetSubnet1
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet1/EIP
+  TheVPCPublicSubnetSubnet1NATGateway6A3661CC:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - TheVPCPublicSubnetSubnet1EIP0BA7EBB3
+          - AllocationId
+      SubnetId:
+        Ref: TheVPCPublicSubnetSubnet1Subnet6558D2C6
+      Tags:
+        - Key: Name
+          Value: CdkappStack/TheVPC/PublicSubnetSubnet1
+    DependsOn:
+      - TheVPCPublicSubnetSubnet1DefaultRoute043CFE30
+      - TheVPCPublicSubnetSubnet1RouteTableAssociation228B423D
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet1/NATGateway
+  TheVPCPublicSubnetSubnet2SubnetB83EA673:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      CidrBlock: 10.20.64.0/18
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PublicSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Public
+        - Key: Name
+          Value: CdkappStack/TheVPC/PublicSubnetSubnet2
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet2/Subnet
+  TheVPCPublicSubnetSubnet2RouteTable5CAFA11E:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkappStack/TheVPC/PublicSubnetSubnet2
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet2/RouteTable
+  TheVPCPublicSubnetSubnet2RouteTableAssociation4949C752:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: TheVPCPublicSubnetSubnet2RouteTable5CAFA11E
+      SubnetId:
+        Ref: TheVPCPublicSubnetSubnet2SubnetB83EA673
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet2/RouteTableAssociation
+  TheVPCPublicSubnetSubnet2DefaultRoute9CB9B902:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId:
+        Ref: TheVPCIGWFA25CC08
+      RouteTableId:
+        Ref: TheVPCPublicSubnetSubnet2RouteTable5CAFA11E
+    DependsOn:
+      - TheVPCVPCGWC9B93E30
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet2/DefaultRoute
+  TheVPCPublicSubnetSubnet2EIP0BA965A5:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: CdkappStack/TheVPC/PublicSubnetSubnet2
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet2/EIP
+  TheVPCPublicSubnetSubnet2NATGatewayE20C4993:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId:
+        Fn::GetAtt:
+          - TheVPCPublicSubnetSubnet2EIP0BA965A5
+          - AllocationId
+      SubnetId:
+        Ref: TheVPCPublicSubnetSubnet2SubnetB83EA673
+      Tags:
+        - Key: Name
+          Value: CdkappStack/TheVPC/PublicSubnetSubnet2
+    DependsOn:
+      - TheVPCPublicSubnetSubnet2DefaultRoute9CB9B902
+      - TheVPCPublicSubnetSubnet2RouteTableAssociation4949C752
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PublicSubnetSubnet2/NATGateway
+  TheVPCPrivateSubnetSubnet1Subnet07F4B937:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      CidrBlock: 10.20.128.0/18
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PrivateSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Private
+        - Key: Name
+          Value: CdkappStack/TheVPC/PrivateSubnetSubnet1
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PrivateSubnetSubnet1/Subnet
+  TheVPCPrivateSubnetSubnet1RouteTableC1AAA3B4:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkappStack/TheVPC/PrivateSubnetSubnet1
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PrivateSubnetSubnet1/RouteTable
+  TheVPCPrivateSubnetSubnet1RouteTableAssociation82418CB1:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: TheVPCPrivateSubnetSubnet1RouteTableC1AAA3B4
+      SubnetId:
+        Ref: TheVPCPrivateSubnetSubnet1Subnet07F4B937
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PrivateSubnetSubnet1/RouteTableAssociation
+  TheVPCPrivateSubnetSubnet1DefaultRouteC58C9D07:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: TheVPCPublicSubnetSubnet1NATGateway6A3661CC
+      RouteTableId:
+        Ref: TheVPCPrivateSubnetSubnet1RouteTableC1AAA3B4
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PrivateSubnetSubnet1/DefaultRoute
+  TheVPCPrivateSubnetSubnet2Subnet6E117F24:
+    Type: AWS::EC2::Subnet
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 1
+          - Fn::GetAZs: ""
+      CidrBlock: 10.20.192.0/18
+      MapPublicIpOnLaunch: false
+      Tags:
+        - Key: aws-cdk:subnet-name
+          Value: PrivateSubnet
+        - Key: aws-cdk:subnet-type
+          Value: Private
+        - Key: Name
+          Value: CdkappStack/TheVPC/PrivateSubnetSubnet2
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PrivateSubnetSubnet2/Subnet
+  TheVPCPrivateSubnetSubnet2RouteTableE48D3137:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkappStack/TheVPC/PrivateSubnetSubnet2
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PrivateSubnetSubnet2/RouteTable
+  TheVPCPrivateSubnetSubnet2RouteTableAssociationCD43CC21:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      RouteTableId:
+        Ref: TheVPCPrivateSubnetSubnet2RouteTableE48D3137
+      SubnetId:
+        Ref: TheVPCPrivateSubnetSubnet2Subnet6E117F24
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PrivateSubnetSubnet2/RouteTableAssociation
+  TheVPCPrivateSubnetSubnet2DefaultRoute726AD070:
+    Type: AWS::EC2::Route
+    Properties:
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId:
+        Ref: TheVPCPublicSubnetSubnet2NATGatewayE20C4993
+      RouteTableId:
+        Ref: TheVPCPrivateSubnetSubnet2RouteTableE48D3137
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/PrivateSubnetSubnet2/DefaultRoute
+  TheVPCIGWFA25CC08:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: CdkappStack/TheVPC
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/IGW
+  TheVPCVPCGWC9B93E30:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      InternetGatewayId:
+        Ref: TheVPCIGWFA25CC08
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/VPCGW
+  TheVPCRestrictDefaultSecurityGroupCustomResourceAFA88FCE:
+    Type: Custom::VpcRestrictDefaultSG
+    Properties:
+      ServiceToken:
+        Fn::GetAtt:
+          - CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E
+          - Arn
+      DefaultSecurityGroupId:
+        Fn::GetAtt:
+          - TheVPC92636AB0
+          - DefaultSecurityGroup
+      Account:
+        Ref: AWS::AccountId
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: CdkappStack/TheVPC/RestrictDefaultSecurityGroupCustomResource/Default
+  CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+      ManagedPolicyArns:
+        - Fn::Sub: arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
+      Policies:
+        - PolicyName: Inline
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - ec2:AuthorizeSecurityGroupIngress
+                  - ec2:AuthorizeSecurityGroupEgress
+                  - ec2:RevokeSecurityGroupIngress
+                  - ec2:RevokeSecurityGroupEgress
+                Resource:
+                  - Fn::Join:
+                      - ""
+                      - - "arn:"
+                        - Ref: AWS::Partition
+                        - ":ec2:"
+                        - Ref: AWS::Region
+                        - ":"
+                        - Ref: AWS::AccountId
+                        - :security-group/
+                        - Fn::GetAtt:
+                            - TheVPC92636AB0
+                            - DefaultSecurityGroup
+    Metadata:
+      aws:cdk:path: CdkappStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role
+  CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket:
+          Fn::Sub: cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}
+        S3Key: 7f18a11296f35510ee16538afec983ed6312e12afbf81b777089a9f8e34e2474.zip
+      Timeout: 900
+      MemorySize: 128
+      Handler: __entrypoint__.handler
+      Role:
+        Fn::GetAtt:
+          - CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0
+          - Arn
+      Runtime: nodejs18.x
+      Description: Lambda function for removing all inbound/outbound rules from the VPC default security group
+    DependsOn:
+      - CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0
+    Metadata:
+      aws:cdk:path: CdkappStack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler
+      aws:asset:path: asset.7f18a11296f35510ee16538afec983ed6312e12afbf81b777089a9f8e34e2474
+      aws:asset:property: Code
+  EC2PublicSecurityGroup49B18C96:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow SSH and HTTP access to EC2 instances in the public subnet
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow SSH from anywhere
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+        - CidrIp: 0.0.0.0/0
+          Description: Allow HTTP from anywhere
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/EC2PublicSecurityGroup/Resource
+  ASGInstanceSecurityGroup0525485D:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: CdkappStack/ASG/InstanceSecurityGroup
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      Tags:
+        - Key: Name
+          Value: CdkappStack/ASG
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/ASG/InstanceSecurityGroup/Resource
+  ASGInstanceSecurityGroupfromCdkappStackALBSecurityGroup3371881580F6DA1A1B:
+    Type: AWS::EC2::SecurityGroupIngress
+    Properties:
+      Description: Load balancer to target
+      FromPort: 80
+      GroupId:
+        Fn::GetAtt:
+          - ASGInstanceSecurityGroup0525485D
+          - GroupId
+      IpProtocol: tcp
+      SourceSecurityGroupId:
+        Fn::GetAtt:
+          - ALBSecurityGroup8B8624F8
+          - GroupId
+      ToPort: 80
+    Metadata:
+      aws:cdk:path: CdkappStack/ASG/InstanceSecurityGroup/from CdkappStackALBSecurityGroup33718815:80
+  ASGInstanceRoleE263A41B:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: CdkappStack/ASG
+    Metadata:
+      aws:cdk:path: CdkappStack/ASG/InstanceRole/Resource
+  ASGInstanceProfile0A2834D7:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: ASGInstanceRoleE263A41B
+    Metadata:
+      aws:cdk:path: CdkappStack/ASG/InstanceProfile
+  ASGLaunchTemplate0CA92847:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateData:
+        IamInstanceProfile:
+          Arn:
+            Fn::GetAtt:
+              - ASGInstanceProfile0A2834D7
+              - Arn
+        ImageId:
+          Ref: SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter
+        InstanceType: t2.micro
+        Monitoring:
+          Enabled: false
+        SecurityGroupIds:
+          - Fn::GetAtt:
+              - ASGInstanceSecurityGroup0525485D
+              - GroupId
+        TagSpecifications:
+          - ResourceType: instance
+            Tags:
+              - Key: Name
+                Value: CdkappStack/ASG/LaunchTemplate
+          - ResourceType: volume
+            Tags:
+              - Key: Name
+                Value: CdkappStack/ASG/LaunchTemplate
+        UserData:
+          Fn::Base64: "#!/bin/bash"
+      TagSpecifications:
+        - ResourceType: launch-template
+          Tags:
+            - Key: Name
+              Value: CdkappStack/ASG/LaunchTemplate
+    DependsOn:
+      - ASGInstanceRoleE263A41B
+    Metadata:
+      aws:cdk:path: CdkappStack/ASG/LaunchTemplate/Resource
+  ASG46ED3070:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      LaunchTemplate:
+        LaunchTemplateId:
+          Ref: ASGLaunchTemplate0CA92847
+        Version:
+          Fn::GetAtt:
+            - ASGLaunchTemplate0CA92847
+            - LatestVersionNumber
+      MaxSize: "1"
+      MinSize: "1"
+      Tags:
+        - Key: Name
+          PropagateAtLaunch: true
+          Value: CdkappStack/ASG
+      TargetGroupARNs:
+        - Ref: ALBListenerTargetGroupD5D64FBA
+      VPCZoneIdentifier:
+        - Ref: TheVPCPrivateSubnetSubnet1Subnet07F4B937
+        - Ref: TheVPCPrivateSubnetSubnet2Subnet6E117F24
+    UpdatePolicy:
+      AutoScalingScheduledAction:
+        IgnoreUnmodifiedGroupSizeProperties: true
+    Metadata:
+      aws:cdk:path: CdkappStack/ASG/ASG
+  ALBAEE750D2:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      LoadBalancerAttributes:
+        - Key: deletion_protection.enabled
+          Value: "false"
+      Scheme: internet-facing
+      SecurityGroups:
+        - Fn::GetAtt:
+            - ALBSecurityGroup8B8624F8
+            - GroupId
+      Subnets:
+        - Ref: TheVPCPublicSubnetSubnet1Subnet6558D2C6
+        - Ref: TheVPCPublicSubnetSubnet2SubnetB83EA673
+      Type: application
+    DependsOn:
+      - TheVPCPublicSubnetSubnet1DefaultRoute043CFE30
+      - TheVPCPublicSubnetSubnet1RouteTableAssociation228B423D
+      - TheVPCPublicSubnetSubnet2DefaultRoute9CB9B902
+      - TheVPCPublicSubnetSubnet2RouteTableAssociation4949C752
+    Metadata:
+      aws:cdk:path: CdkappStack/ALB/Resource
+  ALBSecurityGroup8B8624F8:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Automatically created Security Group for ELB CdkappStackALBB1ECB67A
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow from anyone on port 80
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/ALB/SecurityGroup/Resource
+  ALBSecurityGrouptoCdkappStackASGInstanceSecurityGroup3E72DAE6804A2307F0:
+    Type: AWS::EC2::SecurityGroupEgress
+    Properties:
+      Description: Load balancer to target
+      DestinationSecurityGroupId:
+        Fn::GetAtt:
+          - ASGInstanceSecurityGroup0525485D
+          - GroupId
+      FromPort: 80
+      GroupId:
+        Fn::GetAtt:
+          - ALBSecurityGroup8B8624F8
+          - GroupId
+      IpProtocol: tcp
+      ToPort: 80
+    Metadata:
+      aws:cdk:path: CdkappStack/ALB/SecurityGroup/to CdkappStackASGInstanceSecurityGroup3E72DAE6:80
+  ALBListener3B99FF85:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      DefaultActions:
+        - TargetGroupArn:
+            Ref: ALBListenerTargetGroupD5D64FBA
+          Type: forward
+      LoadBalancerArn:
+        Ref: ALBAEE750D2
+      Port: 80
+      Protocol: HTTP
+    Metadata:
+      aws:cdk:path: CdkappStack/ALB/Listener/Resource
+  ALBListenerTargetGroupD5D64FBA:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: 80
+      Protocol: HTTP
+      TargetGroupAttributes:
+        - Key: stickiness.enabled
+          Value: "false"
+      TargetType: instance
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/ALB/Listener/TargetGroup/Resource
+  DatabaseSecurityGroup7319C0F6:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow database access from EC2 instances
+      SecurityGroupEgress:
+        - CidrIp: 0.0.0.0/0
+          Description: Allow all outbound traffic by default
+          IpProtocol: "-1"
+      SecurityGroupIngress:
+        - CidrIp:
+            Fn::GetAtt:
+              - TheVPC92636AB0
+              - CidrBlock
+          Description: Allow MySQL from within the VPC
+          FromPort: 3306
+          IpProtocol: tcp
+          ToPort: 3306
+      VpcId:
+        Ref: TheVPC92636AB0
+    Metadata:
+      aws:cdk:path: CdkappStack/DatabaseSecurityGroup/Resource
+  MyRDSInstanceSubnetGroup5EA5E186:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: Subnet group for MyRDSInstance database
+      SubnetIds:
+        - Ref: TheVPCPrivateSubnetSubnet1Subnet07F4B937
+        - Ref: TheVPCPrivateSubnetSubnet2Subnet6E117F24
+    Metadata:
+      aws:cdk:path: CdkappStack/MyRDSInstance/SubnetGroup/Default
+  MyRDSInstanceSecretE75AB90C:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Description:
+        Fn::Join:
+          - ""
+          - - "Generated by the CDK for stack: "
+            - Ref: AWS::StackName
+      GenerateSecretString:
+        ExcludeCharacters: " %+~`#$&*()|[]{}:;<>?!'/@\"\\"
+        GenerateStringKey: password
+        PasswordLength: 30
+        SecretStringTemplate: '{"username":"admin"}'
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: CdkappStack/MyRDSInstance/Secret/Resource
+  MyRDSInstanceSecretAttachment4BDADC47:
+    Type: AWS::SecretsManager::SecretTargetAttachment
+    Properties:
+      SecretId:
+        Ref: MyRDSInstanceSecretE75AB90C
+      TargetId:
+        Ref: MyRDSInstance48FD439C
+      TargetType: AWS::RDS::DBInstance
+    Metadata:
+      aws:cdk:path: CdkappStack/MyRDSInstance/Secret/Attachment/Resource
+  MyRDSInstance48FD439C:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      AllocatedStorage: "100"
+      CopyTagsToSnapshot: true
+      DBInstanceClass: db.m5.large
+      DBSubnetGroupName:
+        Ref: MyRDSInstanceSubnetGroup5EA5E186
+      Engine: mysql
+      EngineVersion: 5.7.40
+      MasterUserPassword:
+        Fn::Join:
+          - ""
+          - - "{{resolve:secretsmanager:"
+            - Ref: MyRDSInstanceSecretE75AB90C
+            - :SecretString:password::}}
+      MasterUsername:
+        Fn::Join:
+          - ""
+          - - "{{resolve:secretsmanager:"
+            - Ref: MyRDSInstanceSecretE75AB90C
+            - :SecretString:username::}}
+      StorageType: gp2
+      VPCSecurityGroups:
+        - Fn::GetAtt:
+            - DatabaseSecurityGroup7319C0F6
+            - GroupId
+    UpdateReplacePolicy: Delete
+    DeletionPolicy: Delete
+    Metadata:
+      aws:cdk:path: CdkappStack/MyRDSInstance/Resource
+  EC2InstancePublicInstanceRoleF367AB2B:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: CdkappStack/EC2InstancePublic
+    Metadata:
+      aws:cdk:path: CdkappStack/EC2InstancePublic/InstanceRole/Resource
+  EC2InstancePublicInstanceProfileB7D93D13:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: EC2InstancePublicInstanceRoleF367AB2B
+    Metadata:
+      aws:cdk:path: CdkappStack/EC2InstancePublic/InstanceProfile
+  EC2InstancePublic64A8CFC4:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      IamInstanceProfile:
+        Ref: EC2InstancePublicInstanceProfileB7D93D13
+      ImageId:
+        Ref: SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t2.micro
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - EC2PublicSecurityGroup49B18C96
+            - GroupId
+      SubnetId:
+        Ref: TheVPCPublicSubnetSubnet1Subnet6558D2C6
+      Tags:
+        - Key: Name
+          Value: CdkappStack/EC2InstancePublic
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    DependsOn:
+      - EC2InstancePublicInstanceRoleF367AB2B
+    Metadata:
+      aws:cdk:path: CdkappStack/EC2InstancePublic/Resource
+  EC2InstancePrivateInstanceRoleDFFD23E0:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Action: sts:AssumeRole
+            Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+        Version: "2012-10-17"
+      Tags:
+        - Key: Name
+          Value: CdkappStack/EC2InstancePrivate
+    Metadata:
+      aws:cdk:path: CdkappStack/EC2InstancePrivate/InstanceRole/Resource
+  EC2InstancePrivateInstanceProfileFD9E1026:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - Ref: EC2InstancePrivateInstanceRoleDFFD23E0
+    Metadata:
+      aws:cdk:path: CdkappStack/EC2InstancePrivate/InstanceProfile
+  EC2InstancePrivate7AAEAF03:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone:
+        Fn::Select:
+          - 0
+          - Fn::GetAZs: ""
+      IamInstanceProfile:
+        Ref: EC2InstancePrivateInstanceProfileFD9E1026
+      ImageId:
+        Ref: SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter
+      InstanceType: t2.micro
+      SecurityGroupIds:
+        - Fn::GetAtt:
+            - EC2PublicSecurityGroup49B18C96
+            - GroupId
+      SubnetId:
+        Ref: TheVPCPrivateSubnetSubnet1Subnet07F4B937
+      Tags:
+        - Key: Name
+          Value: CdkappStack/EC2InstancePrivate
+      UserData:
+        Fn::Base64: "#!/bin/bash"
+    DependsOn:
+      - EC2InstancePrivateInstanceRoleDFFD23E0
+    Metadata:
+      aws:cdk:path: CdkappStack/EC2InstancePrivate/Resource
+  CDKMetadata:
+    Type: AWS::CDK::Metadata
+    Properties:
+      Analytics: v2:deflate64:H4sIAAAAAAAA/31Sy07EMAz8Fu7ZAHtAcNwHQishVO2uuCI3NSWQJlXsLEJV/520oQ8e4mR7PHYn4y7lzbW8OIN3WqjibWF0LpsDg3oTEXpqUC1l81grsXm2j9lGZCE3Wh1CbpE7bMr2LjAeITc44RO2InJKA2tnR3KX3O6yLjwA3wHjO3yIzOtTTKfFO8voYz4QkpKvasVR60uFlsUBVfCaP+68C3Wv4V9gZ0uPROIeglUvR6xqA0nTb+Tb4G2a21lisAqTxJS3AgI7UmC0LWWzisUhFaOGn1grNFSy2bvk2xCHjZl3z9rExWiAWCvjoMjBxFZccIq3WdV1PEhv7H3srfse+v4d83rO08RovzhDPusfwZfR7kHxrGyFL0g2W2DIgXC0IB1rnNiu58DAjib6dNHtejKMepQqsFCil01yuyOmkL4+O/NI+NlpW7FHcsF3NwnErprKaOzfrejvSRfd+4mQ449fRl87fgYeKuTk0sbZQnfWtMK6AuUrnZ8ur+TyQi7PXknrhQ+WdYVyn+InTJmF6lUDAAA=
+    Metadata:
+      aws:cdk:path: CdkappStack/CDKMetadata/Default
+    Condition: CDKMetadataAvailable
+Parameters:
+  SsmParameterValueawsserviceamiamazonlinuxlatestamznamihvmx8664gp2C96584B6F00A464EAD1953AFF4B05118Parameter:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn-ami-hvm-x86_64-gp2
+  BootstrapVersion:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /cdk-bootstrap/hnb659fds/version
+    Description: Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]
+Conditions:
+  CDKMetadataAvailable:
+    Fn::Or:
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - af-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-northeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ap-southeast-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - ca-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - cn-northwest-1
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-central-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-north-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-2
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - eu-west-3
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - me-south-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - sa-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-east-2
+      - Fn::Or:
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-1
+          - Fn::Equals:
+              - Ref: AWS::Region
+              - us-west-2
+Rules:
+  CheckBootstrapVersion:
+    Assertions:
+      - Assert:
+          Fn::Not:
+            - Fn::Contains:
+                - - "1"
+                  - "2"
+                  - "3"
+                  - "4"
+                  - "5"
+                - Ref: BootstrapVersion
+        AssertDescription: CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.
+

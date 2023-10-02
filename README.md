@@ -27,7 +27,7 @@ Before deploying this infrastructure, ensure you have the following prerequisite
 Before deploying your CDK stack, you need to bootstrap your AWS environment. Run the following command to set up the CDK Toolkit in your AWS account:
 
 ```bash
-cdk bootstrap
+cdk bootstrap aws://AWS-account-id/AWS-region
 ```
 
 This command will create the necessary resources, such as an S3 bucket and an IAM role, to manage CDK applications in your AWS account.
